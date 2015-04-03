@@ -11,4 +11,5 @@ tethysapp_refts_viewer.egg-info/SOURCES.txt
 tethysapp_refts_viewer.egg-info/dependency_links.txt
 tethysapp_refts_viewer.egg-info/namespace_packages.txt
 tethysapp_refts_viewer.egg-info/not-zip-safe
+tethysapp_refts_viewer.egg-info/requires.txt
 tethysapp_refts_viewer.egg-info/top_level.txt

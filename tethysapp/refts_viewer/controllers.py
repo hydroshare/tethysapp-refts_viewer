@@ -77,8 +77,7 @@ def request_demo(request):
     # Create template context dictionary
     context = {'name': name,
                'text_input_options_res_id': text_input_options_res_id,
-               'text_input_options_filename':text_input_options_filename,
-               'a123':'123a'
+               'text_input_options_filename':text_input_options_filename
                }
 
     return render(request, 'refts_viewer/request_demo.html',context)

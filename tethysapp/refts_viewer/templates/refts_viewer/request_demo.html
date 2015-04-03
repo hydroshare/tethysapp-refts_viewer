@@ -7,8 +7,8 @@
   <h2></h2>
   <form method="post" action="{% url 'refts_viewer:home' %}">
       {% csrf_token %}
-      <input type="radio" name="branch" value="dev" checked>dev</input>
-      <input type="radio" name="branch" value="alpha">alpha</input>
+      <input type="radio" name="branch" value="alpha" checked>alpha</input>
+      <input type="radio" name="branch" value="dev">dev</input>
       {% gizmo text_input text_input_options_res_id %}
       {% gizmo text_input text_input_options_filename %}
 
@@ -53,7 +53,12 @@
             url=url.concat("/fn/");
             url=url.concat(filename.value);
             url=url.concat("/");
-            $('#div_url').append(cur_host.concat(url));
+            //$('#div_url').append(cur_host.concat(url));
+            var full_url="http://".concat(cur_host.concat(url))
+            var myNewElem=$("<a/>", {html:full_url,
+                href: full_url
+            });
+            myNewElem.appendTo('#div_url');
         });
 
         //http://127.0.0.1:8000/apps/tethys-hstools/?branch=alpha&filename=referencetimeseries-2_23_2015-wml_2_0.wml&res_id=72b1d67d415b4d949293b1e46d02367d
@@ -68,7 +73,12 @@
             url=url.concat("&filename=");
             url=url.concat(filename.value);
             url=url.concat("/");
-            $('#div_url').append(cur_host.concat(url));
+            //$('#div_url').append(cur_host.concat(url))
+            var full_url="http://".concat(cur_host.concat(url))
+            var myNewElem=$("<a/>", {html:full_url,
+                href: full_url
+            });
+            myNewElem.appendTo('#div_url');
         });
     });
 
