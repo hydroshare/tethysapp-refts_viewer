@@ -3,7 +3,8 @@ from utilities import *
 from django.http import Http404
 
 #Base_Url_HydroShare REST API
-url_base='http://{0}.hydroshare.org/hsapi/resource/{1}/files/{2}'
+#url_base='http://{0}.hydroshare.org/hsapi/resource/{1}/files/{2}'
+url_base='http://{0}.hydroshare.org/django_irods/download/?path={1}/{2}'
 
 ##Call in Rest style
 def restcall(request,branch,res_id,filename):
@@ -44,6 +45,10 @@ def home(request):
             res_id = request.GET['res_id']
             branch= request.GET['branch']
             url_wml= url_base.format(branch,res_id,filename)
+        elif request.method == 'GET' and 'res_id' in request.GET and 'fileurl' in request.GET:
+            res_id = request.GET['res_id']
+            url_wml = request.GET['fileurl']
+
 
         if url_wml is None:
             filename = 'KiWIS-WML2-Example.wml'
@@ -53,11 +58,14 @@ def home(request):
 
         response = urllib2.urlopen(url_wml)
 
+        print ("Start to download")
         html = response.read()
+        print ("Download completed")
 
         timeseries_plot = chartPara(html,filename)
 
-        context = {"timeseries_plot":timeseries_plot}
+
+        context = {"timeseries_plot": timeseries_plot}
     except:
         raise Http404("Cannot locate this resource file!")
     return render(request, 'refts_viewer/home.html', context)
