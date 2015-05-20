@@ -76,13 +76,13 @@ def request_demo(request):
     name = ''
 
     # Define Gizmo Options
-    text_input_options_res_id = {'display_text': 'Res ID',
+    text_input_options_res_id = {'display_text': 'HydroShare Resource ID',
                           'name': 'res_id',
-                            'initial': '5df7c67f65a74db1997dfd92f3c86cd7'}
+                            'initial': '76c887cd79904958828e9d6a27f40354'}
 
-    text_input_options_filename = {'display_text': 'Filename',
+    text_input_options_filename = {'display_text': 'Resource Filename (WaterML2.0)',
                           'name': 'filename',
-                          'initial': 'Untitledresource-3_20_2015-wml_2_0.wml'
+                          'initial': 'HISTS1-wml_2_0.xml'
                           }
 
 

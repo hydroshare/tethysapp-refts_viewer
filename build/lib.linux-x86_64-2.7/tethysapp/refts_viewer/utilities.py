@@ -135,68 +135,67 @@ def parse_1_0_and_1_1(root):
 
 # Prepare for Chart Parameters
 def chartPara(html, filename):
-    try:
-        root = etree.XML(html)
-        wml_version = get_version(root)
 
-        ts={}
-        if wml_version == '1':
-            ts = parse_1_0_and_1_1(root)
-        elif wml_version == '2.0':
-            ts = parse_2_0(root)
+    #print (html)
 
-        #print ts
+    root = etree.XML(html)
+    wml_version = get_version(root)
 
-        title_text=filename
-        x_title_text = "Time"
-        y_title_text = "Measures'"
-        serise_text=filename
+    ts={}
+    if wml_version == '1':
+        ts = parse_1_0_and_1_1(root)
+    elif wml_version == '2.0':
+        ts = parse_2_0(root)
 
-        # Timeseries plot example
-        timeseries_plot_object = {
-            'chart': {
-                'type': 'area',
-                'zoomType': 'x'
-            },
+    #print ts
+
+    title_text=filename
+    x_title_text = "Time"
+    y_title_text = "Measures'"
+    serise_text=filename
+
+    # Timeseries plot example
+    timeseries_plot_object = {
+        'chart': {
+            'type': 'area',
+            'zoomType': 'x'
+        },
+        'title': {
+            'text': title_text
+        },
+        'xAxis': {
+            'maxZoom': 3 * 24 * 3600000, # 30 days in milliseconds
+            'type': 'datetime',
             'title': {
-                'text': title_text
-            },
-            'xAxis': {
-                'maxZoom': 3 * 24 * 3600000, # 30 days in milliseconds
-                'type': 'datetime',
-                'title': {
-                    'text': x_title_text
-                }
-            },
-            'yAxis': {
-                'title': {
-                    'text': y_title_text
-                }
-            },
-            'legend': {
-                'layout': 'vertical',
-                'align': 'right',
-                'verticalAlign': 'top',
-                'x': -350,
-                'y': 125,
-                'floating': True,
-                'borderWidth': 1,
-                'backgroundColor': '#FFFFFF'
-            },
-            'series': [{
-                'name': serise_text,
-                'data':ts["for_highchart"]
-            }]
-        }
+                'text': x_title_text
+            }
+        },
+        'yAxis': {
+            'title': {
+                'text': y_title_text
+            }
+        },
+        'legend': {
+            'layout': 'vertical',
+            'align': 'right',
+            'verticalAlign': 'top',
+            'x': -350,
+            'y': 125,
+            'floating': True,
+            'borderWidth': 1,
+            'backgroundColor': '#FFFFFF'
+        },
+        'series': [{
+            'name': serise_text,
+            'data':ts["for_highchart"]
+        }]
+    }
 
-        print ("Parse XML completed")
-        timeseries_plot = {'highcharts_object': timeseries_plot_object,
-                         'width': '500px',
-                         'height': '500px'}
 
-    except:
-        print "Parsing error: chartPara error"
-        raise Http404("Parsing error")
+    timeseries_plot = {'highcharts_object': timeseries_plot_object,
+                     'width': '500px',
+                     'height': '500px'}
+
 
     return timeseries_plot
 
@@ -210,24 +209,10 @@ def parse_2_0(root):
             vals = []
             for_graph = []
             for_highchart=[]
-            units, site_name, variable_name, latitude, longitude, method, nodatavalue = None, None, None, None, None, None, None
+            units, site_name, variable_name, latitude, longitude, method = None, None, None, None, None, None
             name_is_set = False
             variable_name = root[1].text
             for element in root.iter():
-
-                #find noDataValue
-                #not a good practise, need a better WaterML2.0 parser
-                nodatavalue_flag = 0
-                if 'NamedValue' in element.tag and nodatavalue_flag != 2:
-                    for e in element:
-                        if nodatavalue_flag == 0 and 'name' in e.tag and 'noDataValue' in e.attrib.values():
-                            nodatavalue_flag = 1
-                        if nodatavalue_flag == 1 and 'value' in e.tag:
-                            nodatavalue = e.text
-                            print "Find NoDataValue: " + nodatavalue
-                            nodatavalue_flag = 2
-                            break
-
                 if 'MeasurementTVP' in element.tag:
                         for e in element:
                             if 'time' in e.tag:
@@ -257,19 +242,13 @@ def parse_2_0(root):
                                 if 'title' in a:
                                     method=e.attrib[a]
 
-
             for i in range(0,len(keys)):
-                val_obj=float(vals[i])
-                if nodatavalue is not None:
-                    if float(nodatavalue) == val_obj: #skip nodata points
-                        continue
                 time_str=keys[i]
                 time_obj=time_str_to_datetime(time_str)
+                val_obj=float(vals[i])
                 item=[time_obj,val_obj]
                 for_highchart.append(item)
-
             values = dict(zip(keys, vals))
-
             for k, v in values.items():
                 t = time_to_int(k)
                 for_graph.append({'x': t, 'y': float(v)})
@@ -287,8 +266,7 @@ def parse_2_0(root):
                     'wml_version': '2.0',
                     'latitude': latitude,
                     'longitude': longitude,
-                    'for_highchart':for_highchart,
-                    'nodatavalue': nodatavalue
+                    'for_highchart':for_highchart
                     }
         else:
             print "Parsing error: The waterml document doesn't appear to be a WaterML 2.0 time series"
