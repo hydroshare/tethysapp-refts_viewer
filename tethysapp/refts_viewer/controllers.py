@@ -4,7 +4,8 @@ from django.http import Http404
 
 #Base_Url_HydroShare REST API
 #url_base='http://{0}.hydroshare.org/hsapi/resource/{1}/files/{2}'
-url_base='http://{0}.hydroshare.org/django_irods/download/?path={1}/{2}'
+#url_base='http://{0}.hydroshare.org/django_irods/download/?path={1}/{2}'
+url_base='http://{0}.hydroshare.org/django_irods/download/{1}/data/contents/{2}'
 
 ##Call in Rest style
 def restcall(request,branch,res_id,filename):
@@ -78,11 +79,11 @@ def request_demo(request):
     # Define Gizmo Options
     text_input_options_res_id = {'display_text': 'HydroShare Resource ID',
                           'name': 'res_id',
-                            'initial': '76c887cd79904958828e9d6a27f40354'}
+                            'initial': 'c377d07efcfb484ab0da1c5c2ec7c7ac'}
 
     text_input_options_filename = {'display_text': 'Resource Filename (WaterML2.0)',
                           'name': 'filename',
-                          'initial': 'HISTS1-wml_2_0.xml'
+                          'initial': 'refts1-wml_2_0.xml'
                           }
 
 
