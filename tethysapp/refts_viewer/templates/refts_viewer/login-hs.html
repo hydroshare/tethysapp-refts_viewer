@@ -1,0 +1,26 @@
+{% extends "refts_viewer/base.html" %}
+{% load tethys_gizmos %}
+
+{% block app_navigation_items %}
+
+  <li>
+    <a href="{% url 'refts_viewer:home' %}">Back to viewer</a>
+  </li>
+
+{% endblock %}
+
+{% block app_content %}
+  <h1>Verify your HydroShare account</h1>
+<form method="post" action="{% url 'refts_viewer:home' %}">
+      {% csrf_token %}
+
+     HydroShare User Name: <input type="text" name="u" value="{{un}}" readonly><br>
+    Password: <input type="password" name="up" ><br>
+    <input type="hidden" name="res_id" value="{{res_id}}">
+    <input type="hidden" name="fn" value="{{fn}}">
+
+
+    <input type="submit" name="name-form-submit" class="btn btn-default" value="Enter"/>
+
+  </form>
+{% endblock %}
