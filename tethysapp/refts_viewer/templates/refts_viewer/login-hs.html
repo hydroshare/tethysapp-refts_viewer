@@ -14,7 +14,7 @@
 <form method="post" action="{% url 'refts_viewer:home' %}">
       {% csrf_token %}
 
-     HydroShare User Name: <input type="text" name="u" value="{{un}}" readonly><br>
+     HydroShare User Name: <input type="text" name="usr" value="{{un}}" readonly><br>
     Password: <input type="password" name="up" ><br>
     <input type="hidden" name="res_id" value="{{res_id}}">
     <input type="hidden" name="fn" value="{{fn}}">

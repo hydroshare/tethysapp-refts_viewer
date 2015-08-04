@@ -36,7 +36,7 @@ def getWmlByHsRest(res_id, uname, fn, upass=None):
     fpath=None
     try:
         print "hs", res_id, fn
-        hs = HydroShare(hostname='dev.hydroshare.org', port=80, auth=auth)
+        hs = HydroShare(hostname='playground.hydroshare.org', port=80, auth=auth)
         fpath=hs.getResourceFile(res_id, fn, destination='/tmp/')
         print fpath
     except HydroShareNotAuthorized as ex:
