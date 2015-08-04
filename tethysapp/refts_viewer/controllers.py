@@ -78,17 +78,17 @@ def home(request):
             res_id = request.GET['res_id']
             branch= request.GET['branch']
             url_wml= url_base.format(branch,res_id,filename)
-        elif request.method == 'GET' and 'res_id' in request.GET and 'fn' in request.GET and 'u' in request.GET:
+        elif request.method == 'GET' and 'res_id' in request.GET and 'fn' in request.GET and 'usr' in request.GET:
             print "1"
             res_id = request.GET['res_id']
             fn = request.GET['fn']
-            uname = request.GET['u']
+            uname = request.GET['usr']
             use_HS_rest = True
-        elif request.method == 'POST' and 'res_id' in request.POST and 'fn' in request.POST and 'u' in request.POST and 'up' in request.POST:
+        elif request.method == 'POST' and 'res_id' in request.POST and 'fn' in request.POST and 'usr' in request.POST and 'up' in request.POST:
             print "2"
             res_id = request.POST['res_id']
             fn = request.POST['fn']
-            uname = request.POST['u']
+            uname = request.POST['usr']
             upass = request.POST['up']
             use_HS_rest = True
         elif request.method == 'GET' and 'res_id' in request.GET and 'fileurl' in request.GET:
